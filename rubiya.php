@@ -91,13 +91,15 @@ if($_GET['page'] == "download"){
     $escape_file = basename($escape_file);
     $content = file_get_contents("./upload/{$escape_file}");
     //$content = htmlspecialchars($content);
-    $content = str_replace("<","&lt;",$content);
-    $content = str_replace(">","&gt;",$content);
+    //$content = str_replace("<","&lt;",$content);
+    //$content = str_replace(">","&gt;",$content);
     if(!$content){
         exit("<script>alert(`not exists file`);history.go(-1);</script>");
     }
     else{
         header("Content-Disposition: attachment;");
+        $content = str_replace("<","&lt;",$content);
+        $content = str_replace(">","&gt;",$content);
         echo $content;
         exit;
     }
