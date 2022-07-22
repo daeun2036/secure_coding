@@ -92,6 +92,7 @@ if($_GET['page'] == "download"){
     $content = file_get_contents("./upload/{$escape_file}");
     //$content = htmlspecialchars($content);
     $content = str_replace("<","&lt;",$content);
+    $content = str_replace(">","&gt;",$content);
     if(!$content){
         exit("<script>alert(`not exists file`);history.go(-1);</script>");
     }
