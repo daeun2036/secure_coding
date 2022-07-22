@@ -79,8 +79,8 @@ if($_GET['page'] == "download"){
             exit("");
         }
     }
-    $escape_file=strip_tags($escape_file);
-    $content = file_get_contents("./upload/{$escape_file}");
+    //$escape_file=strip_tags($escape_file);
+    $content = strip_tags(file_get_contents("./upload/{$escape_file}"));
     if(!$content){
         exit("<script>alert(`not exists file`);history.go(-1);</script>");
     }
