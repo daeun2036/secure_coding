@@ -66,12 +66,11 @@ if($_GET['page'] == "upload"){
             exit("");
         }
     }
-    define($File_Path,$_FILES['fileToUpload']['tmp_name']);
-    define($home_path,"./upload");
+    //define($File_Path,$_FILES['fileToUpload']['tmp_name']);
+    //define($home_path,"./upload");
     $extension = explode(".",$_FILES['fileToUpload']['name'])[1];
     if($extension == "txt" || $extension == "png"){
         system("cp {$_FILES['fileToUpload']['tmp_name']} ./upload/{$_FILES['fileToUpload']['name']}");
-        //system("cp {$File_Path} {$home_path + $File_Path}");
         exit("<script>alert(`upload ok`);location.href=`/`;</script>");
     }
     else{
@@ -95,7 +94,7 @@ if($_GET['page'] == "download"){
     }
     else{
         header("Content-Disposition: attachment;");
-        echo file_get_contents("./upload/{$escape_file}");
+        echo $content;
         exit;
     }
 }
