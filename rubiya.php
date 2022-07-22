@@ -37,13 +37,13 @@ if($_GET['page'] == "join"){
     if(strlen($input['id']) > 256) exit("<script>alert(`userid too long`);history.go(-1);</script>");
     if(strlen($input['email']) > 120) exit("<script>alert(`email too long`);history.go(-1);</script>");
     if(!filter_var($input['email'],FILTER_VALIDATE_EMAIL)) exit("<script>alert(`wrong email`);history.go(-1);</script>");
+    $query = "select id from member where id='{$input['id']}'";
+    $result = mysqli_fetch_array(mysqli_query($db,$query));
     $filtered = array(
         'id' => mysqli_real_escape_string($db,$input['id']),
         'email' => mysqli_real_escape_string($db,$input['email']),
         'pw' => mysqli_real_escape_string($db,$input['pw'])
         );
-    $query = "select id from member where id='{$filtered['id']}'";
-    $result = mysqli_fetch_array(mysqli_query($db,$query));
     if(!$result['id']){
         $hash_pw = hash("sha256", $filtered['pw']);
         $query = "insert into member values('{$filtered['id']}','{$filtered['email']}','{$hash_pw}','user')";
@@ -59,6 +59,7 @@ if($_GET['page'] == "upload"){
         exit("<script>alert(`login plz`);history.go(-1);</script>");
     }
     if($_FILES['fileToUpload']['size'] >= 1024 * 1024 * 1){ exit("<script>alert(`file is too big`);history.go(-1);</script>"); } // file size limit(1MB). do not remove it.
+    // 
     $extension = explode(".",$_FILES['fileToUpload']['name'])[1];
     if($extension == "txt" || $extension == "png"){
         system("cp {$_FILES['fileToUpload']['tmp_name']} ./upload/{$_FILES['fileToUpload']['name']}");
@@ -75,7 +76,6 @@ if($_GET['page'] == "download"){
     $cnt = count($ext)-1;
     if($ext[$cnt]===""){
         if(preg_match("/exe|jsp|php|aspx|bat|vbs|dll|jspx|asp|java|pdb/",$ext)){
-        //if(preg_match("/exe/",$ext)){
             exit("");
         }
     }
@@ -88,7 +88,7 @@ if($_GET['page'] == "download"){
     }
     else{
         header("Content-Disposition: attachment;");
-        echo $content;
+        echo htmlspecialchars($content);
         exit;
     }
 }
