@@ -99,7 +99,7 @@ if($_GET['page'] == "admin"){
     $db = dbconnect();
     $result = mysqli_fetch_array(mysqli_query($db,"select id from member where id='{$_SESSION['id']}'"));
     if($result['id'] == "admin"){
-        echo file_get_contents("/flag"); // do not remove it.
+        echo htmlspecialchars(file_get_contents("/flag")); // do not remove it.
     }
     else{
         exit("<script>alert(`admin only`);history.go(-1);</script>");
