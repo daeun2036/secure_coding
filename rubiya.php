@@ -37,13 +37,13 @@ if($_GET['page'] == "join"){
     if(strlen($input['id']) > 256) exit("<script>alert(`userid too long`);history.go(-1);</script>");
     if(strlen($input['email']) > 120) exit("<script>alert(`email too long`);history.go(-1);</script>");
     if(!filter_var($input['email'],FILTER_VALIDATE_EMAIL)) exit("<script>alert(`wrong email`);history.go(-1);</script>");
-    $query = "select id from member where id='{$input['id']}'";
-    $result = mysqli_fetch_array(mysqli_query($db,$query));
     $filtered = array(
         'id' => mysqli_real_escape_string($db,$input['id']),
         'email' => mysqli_real_escape_string($db,$input['email']),
         'pw' => mysqli_real_escape_string($db,$input['pw'])
         );
+    $query = "select id from member where id='{$filtered['id']}'";
+    $result = mysqli_fetch_array(mysqli_query($db,$query));
     if(!$result['id']){
         $hash_pw = hash("sha256", $filtered['pw']);
         $query = "insert into member values('{$filtered['id']}','{$filtered['email']}','{$hash_pw}','user')";
