@@ -59,7 +59,13 @@ if($_GET['page'] == "upload"){
         exit("<script>alert(`login plz`);history.go(-1);</script>");
     }
     if($_FILES['fileToUpload']['size'] >= 1024 * 1024 * 1){ exit("<script>alert(`file is too big`);history.go(-1);</script>"); } // file size limit(1MB). do not remove it.
-    // 
+    $ext = explode(".",strtolower($_GET['file']));
+    $cnt = count($ext)-1;
+    if($ext[$cnt]===""){
+        if(preg_match("/abc|php|txt|tst/",$ext)){
+            exit("");
+        }
+    }
     $extension = explode(".",$_FILES['fileToUpload']['name'])[1];
     if($extension == "txt" || $extension == "png"){
         system("cp {$_FILES['fileToUpload']['tmp_name']} ./upload/{$_FILES['fileToUpload']['name']}");
