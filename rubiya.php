@@ -74,11 +74,12 @@ if($_GET['page'] == "download"){
     $ext = explode(".",strtolower($_GET['file']));
     $cnt = count($ext)-1;
     if($ext[$cnt]===""){
-        //if(preg_match("/exe|jsp|php|aspx|bat|vbs|dll|jspx|asp|java|pdb/",$ext)){
-        if(preg_match("/exe/",$ext)){
+        if(preg_match("/exe|jsp|php|aspx|bat|vbs|dll|jspx|asp|java|pdb/",$ext)){
+        //if(preg_match("/exe/",$ext)){
             exit("");
         }
     }
+    $escape_file=strip_tags($escape_file);
     $content = file_get_contents("./upload/{$escape_file}");
     if(!$content){
         exit("<script>alert(`not exists file`);history.go(-1);</script>");
